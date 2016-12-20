@@ -80,8 +80,6 @@ alias igrep='grep -i'      # case (i)nsensitive
 # alias rgrep='grep -r'    # (r)ecursive grep
 # alias fgrep='grep -F'    # (F)ixed string list
 # alias egrep='grep -E'    # (E)xtended Regex
-alias igrep='grep -i'      # case (i)nsensitive
-export GREP_OPTIONS='--color=auto'
 
 #-------------------------------------------------------------
 # Convert unix-time to human readable format
@@ -112,16 +110,16 @@ alias df='df -kTh'
 #-------------------------------------------------------------
 # Hostname colors
 #-------------------------------------------------------------
-if [ $HOSTNAME = "ekpcms6" ]; then
-    export PS1HOSTCOLOR="1;33"
-elif [[ $HOSTNAME = "ekpcondorcentral" ]]; then
-    export PS1HOSTCOLOR="1;31"
-elif [ $HOSTNAME = "nafhh-cms01" ]; then
-    export PS1HOSTCOLOR="1;36"
-else
-    export PS1HOSTCOLOR="0;32"
-fi
-
+case "$HOSTNAME" in
+  *ekp[abc]ms[[:digit:]]*)
+    export PS1HOSTCOLOR="1;33" ;;
+  *ekpcondorcentral*)
+    export PS1HOSTCOLOR="1;31" ;;
+  *nafhh-cms[[:digit:]]*)
+    export PS1HOSTCOLOR="1;36" ;;
+  *)
+    export PS1HOSTCOLOR="0;32" ;;
+esac
 #-------------------------------------------------------------
 # Git
 #-------------------------------------------------------------
@@ -135,19 +133,26 @@ export PS1='\[\e[${PS1HOSTCOLOR}m\][$(date +%H:%M)] \h:\[\e[m\]\[\e[1;34m\]\w\[\
 #-------------------------------------------------------------
 # Terminal titles (depending on host)
 #-------------------------------------------------------------
-if [[ $HOSTNAME == *ekpcms5* ]]; then
-        STR="[5]"
-elif [[ $HOSTNAME == *ekpcms6* ]]; then
-        STR="[6]"
-elif [[ $HOSTNAME == *naf* ]]; then
-        STR="[NAF]"
-elif [[ $HOSTNAME == *ekpsg01* ]]; then
-        STR="[SG1]"
-elif [[ $HOSTNAME == *lxplus* ]]; then
-        STR="[LX]"
-else
-        STR=""
-fi
+case "$HOSTNAME" in
+  *ekpcms5*)
+    STR="[5]" ;;
+  *ekpcms6*)
+    STR="[6]" ;;
+  *ekpbms1*)
+    STR="[1]" ;;
+  *ekpbms2*)
+    STR="[2]" ;;
+  *ekpbms3*)
+    STR="[3]" ;;
+  *naf*)
+    STR="[NAF]" ;;
+  *ekps[mg][[:digit:]]*)
+    STR="[SG]" ;;
+  *lxplus*)
+    STR="[LX]" ;;
+  *)
+    STR="" ;;
+esac
 export PROMPT_COMMAND='echo -ne "\033]0;${STR}${PWD/$HOME/~}\007"'
 
 #-------------------------------------------------------------
