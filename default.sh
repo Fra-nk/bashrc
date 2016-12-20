@@ -64,6 +64,18 @@ alias .........='cd ../../../../../../../..'
 #-------------------------------------------------------------
 # Grep
 #-------------------------------------------------------------
+# Enable colors
+grep_version_number=$(grep --version | head -n 1 | awk 'match($0, /[0-9.]+/){ print substr( $0, RSTART, RLENGTH ) }')
+if (( $(bc <<< "$grep_version_number<2.21") )); then
+    # GREP_OPTIONS is deprecated since grep 2.21
+    export GREP_OPTIONS='--color=auto'
+else
+    unset GREP_OPTIONS
+    alias grep='grep -n --color'
+fi
+unset grep_version_number
+
+alias igrep='grep -i'      # case (i)nsensitive
 # The following 3 are defined by default
 # alias rgrep='grep -r'    # (r)ecursive grep
 # alias fgrep='grep -F'    # (F)ixed string list
