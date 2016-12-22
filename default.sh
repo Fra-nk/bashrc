@@ -144,10 +144,12 @@ case "$HOSTNAME" in
     STR="[2]" ;;
   *ekpbms3*)
     STR="[3]" ;;
+  *ekpcondorcentral*)
+    STR="[CC]" ;;
   *naf*)
     STR="[NAF]" ;;
   *ekps[mg][[:digit:]]*)
-    STR="[SG]" ;;
+    STR="[SM]" ;;
   *lxplus*)
     STR="[LX]" ;;
   *)
